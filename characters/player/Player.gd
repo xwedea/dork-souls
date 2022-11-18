@@ -1,10 +1,10 @@
 extends KinematicBody2D
 
 
-export var GRAVITY = 30
+export var GRAVITY = 40
 const MAXFALLSPEED = 200
 const MAXSPEED = 200
-const JUMPFORCE = 600
+const JUMPFORCE = 800
 const ACCELERATION = 40
 
 var velocity = Vector2.ZERO
@@ -14,9 +14,19 @@ var facing_right = true
 func _ready():
 	pass # Replace with function body.
 
-#var isAttacking : bool = false 
+export var isAttacking : bool = false
 
 func _physics_process(delta):
+	# ATTACK
+	if Input.is_action_just_pressed("attack"):
+		isAttacking = true
+		$AnimationPlayer.play("attack1")
+	
+	if isAttacking:
+		$AnimationPlayer.play("attack1")		
+		return
+	
+	
 	# DIRECTION
 	if facing_right:
 		$AnimatedSprite.scale.x = 1
@@ -47,7 +57,6 @@ func _physics_process(delta):
 	# JUMP
 	if is_on_floor():
 		if Input.is_action_just_pressed("jump"):
-			print("JUMP ACTION")
 			velocity.y -= JUMPFORCE
 			$AnimationPlayer.play("jump")
 	else:
@@ -55,6 +64,8 @@ func _physics_process(delta):
 			$AnimationPlayer.play("fall")
 		elif velocity.y < 0:
 			$AnimationPlayer.play("jump")
+			
+	
 		
 	# Setting the position
 	var motion = move_and_slide(velocity, Vector2.UP)
