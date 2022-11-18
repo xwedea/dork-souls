@@ -39,7 +39,8 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=18]
-resource_name = "attack"
+resource_name = "attack1"
+length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimatedSprite:animation")
 tracks/0/interp = 1
@@ -369,7 +370,7 @@ shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 2 )
-anims/attack = SubResource( 18 )
+anims/attack1 = SubResource( 18 )
 anims/fall = SubResource( 42 )
 anims/idle = SubResource( 3 )
 anims/jump = SubResource( 5 )
@@ -379,3 +380,9 @@ anims/runtest = SubResource( 17 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 16 )
 animation = "idle"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 0, -48 )
+current = true
+zoom = Vector2( 0.8, 0.8 )
+offset_v = -1.0

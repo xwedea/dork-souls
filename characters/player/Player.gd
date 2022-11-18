@@ -1,10 +1,10 @@
 extends KinematicBody2D
 
 
-export var GRAVITY = 20
+export var GRAVITY = 30
 const MAXFALLSPEED = 200
 const MAXSPEED = 200
-const JUMPFORCE = 500
+const JUMPFORCE = 600
 const ACCELERATION = 40
 
 var velocity = Vector2.ZERO
