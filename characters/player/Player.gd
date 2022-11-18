@@ -17,16 +17,6 @@ func _ready():
 export var isAttacking : bool = false
 
 func _physics_process(delta):
-	# ATTACK
-	if Input.is_action_just_pressed("attack"):
-		isAttacking = true
-		$AnimationPlayer.play("attack1")
-	
-	if isAttacking:
-		$AnimationPlayer.play("attack1")		
-		return
-	
-	
 	# DIRECTION
 	if facing_right:
 		$AnimatedSprite.scale.x = 1
@@ -37,7 +27,14 @@ func _physics_process(delta):
 	velocity.y += GRAVITY
 	if velocity.y > MAXFALLSPEED:
 		velocity.y = MAXFALLSPEED
-		
+	
+	# ATTACK
+	if Input.is_action_just_pressed("attack"):
+		isAttacking = true
+		$AnimationPlayer.play("attack1")
+	
+	if isAttacking:
+		return
 		
 	# HORIZONTAL MOVEMENT
 	velocity.x = clamp(velocity.x, -MAXSPEED, MAXSPEED)
@@ -65,10 +62,15 @@ func _physics_process(delta):
 		elif velocity.y < 0:
 			$AnimationPlayer.play("jump")
 			
-	
 		
 	# Setting the position
 	var motion = move_and_slide(velocity, Vector2.UP)
 	
-	
-	
+
+func _on_HitArea_area_entered(area):
+	pass # Replace with function body.
+
+
+func _on_HitArea_body_entered(body):
+	if body.has_method("handle_hit"):
+		body.handle_hit()

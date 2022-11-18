@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=2]
 [ext_resource path="res://characters/player/sheets/Attack1.png" type="Texture" id=3]
@@ -36,6 +36,18 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ "idle" ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite/HitArea:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=18]
@@ -76,6 +88,18 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AnimatedSprite/HitArea/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
 }
 
 [sub_resource type="Animation" id=42]
@@ -377,6 +401,10 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="CapsuleShape2D" id=43]
+radius = 16.9979
+height = 30.6881
+
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
@@ -396,8 +424,20 @@ anims/runtest = SubResource( 17 )
 frames = SubResource( 16 )
 animation = "idle"
 
+[node name="HitArea" type="Area2D" parent="AnimatedSprite"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite/HitArea"]
+position = Vector2( 24, -12 )
+rotation = -1.39626
+shape = SubResource( 43 )
+disabled = true
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 0, -48 )
 current = true
 zoom = Vector2( 0.8, 0.8 )
 offset_v = -1.0
+
+[connection signal="area_entered" from="AnimatedSprite/HitArea" to="." method="_on_HitArea_area_entered"]
+[connection signal="body_entered" from="AnimatedSprite/HitArea" to="." method="_on_HitArea_body_entered"]
