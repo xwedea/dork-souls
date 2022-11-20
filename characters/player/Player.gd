@@ -1,10 +1,10 @@
 extends KinematicBody2D
 
 
-export var GRAVITY = 40
-const MAXFALLSPEED = 200
+export var GRAVITY = 12
+const MAXFALLSPEED = 400
 const MAXSPEED = 200
-const JUMPFORCE = 800
+const JUMPFORCE = 250
 const ACCELERATION = 40
 
 var velocity = Vector2.ZERO
@@ -62,13 +62,9 @@ func _physics_process(delta):
 		elif velocity.y < 0:
 			$AnimationPlayer.play("jump")
 			
-		
 	# Setting the position
-	var motion = move_and_slide(velocity, Vector2.UP)
+	velocity = move_and_slide(velocity, Vector2.UP)
 	
-
-func _on_HitArea_area_entered(area):
-	pass # Replace with function body.
 
 
 func _on_HitArea_body_entered(body):
